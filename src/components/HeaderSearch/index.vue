@@ -49,7 +49,7 @@ export default class extends Vue {
   private show = false;
   private options: RouteConfig[] = [];
   private searchPool: RouteConfig[] = [];
-  // private fuse: Fuse<RouteConfig>;
+  private fuse: Fuse<RouteConfig>;
 
   get routes() {
     return PermissionModule.routes;
@@ -112,24 +112,24 @@ export default class extends Vue {
   }
 
   private initFuse(list: RouteConfig[]) {
-    // this.fuse = new Fuse(list, {
-    //   shouldSort: true,
-    //   threshold: 0.4,
-    //   location: 0,
-    //   distance: 100,
-    //   maxPatternLength: 32,
-    //   minMatchCharLength: 1,
-    //   keys: [
-    //     {
-    //       name: "title",
-    //       weight: 0.7
-    //     },
-    //     {
-    //       name: "path",
-    //       weight: 0.3
-    //     }
-    //   ]
-    // });
+    this.fuse = new Fuse(list, {
+      shouldSort: true,
+      threshold: 0.4,
+      location: 0,
+      distance: 100,
+      maxPatternLength: 32,
+      minMatchCharLength: 1,
+      keys: [
+        {
+          name: "title",
+          weight: 0.7
+        },
+        {
+          name: "path",
+          weight: 0.3
+        }
+      ]
+    });
   }
 
   // Filter out the routes that can be displayed in the sidebar
@@ -182,9 +182,9 @@ export default class extends Vue {
 
   private querySearch(query: string) {
     if (query !== "") {
-      // if (this.fuse) {
-      //   this.options = this.fuse.search(query);
-      // }
+      if (this.fuse) {
+        this.options = this.fuse.search(query);
+      }
     } else {
       this.options = [];
     }
