@@ -24,16 +24,10 @@
         English
       </el-dropdown-item>
       <el-dropdown-item
-        :disabled="language==='es'"
-        command="es"
+        :disabled="language==='vn'"
+        command="vn"
       >
-        Español
-      </el-dropdown-item>
-      <el-dropdown-item
-        :disabled="language==='ja'"
-        command="ja"
-      >
-        日本語
+        Tiếng việt nam
       </el-dropdown-item>
     </el-dropdown-menu>
   </el-dropdown>

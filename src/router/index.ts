@@ -88,6 +88,54 @@ export const constantRoutes: RouteConfig[] = [
         }
       }
     ]
+  }, {
+    path: '/QIPManagement',
+    component: Layout,
+    meta: { hidden: false },
+    children: [
+      {
+        path: 'index',
+        component: () => import(/* webpackChunkName: "QIPManagement" */ '@/views/QIPManagement/index.vue'),
+        name: 'QIPManagement',
+        meta: { title: 'QIPManagement', icon: 'theme' }
+      }
+    ]
+  },
+  {
+    path: '/BasicManagement',
+    component: Layout,
+    meta: {
+      title: 'BasicManagement',
+      icon: 'component',
+      hidden: false
+    },
+    children: [
+      {
+        path: 'index',
+        component: () => import(/* webpackChunkName: "BasicManagement" */'@/views/BasicManagement/index.vue'),
+        name: 'BasicManagement',
+        meta: { title: 'BasicManagement', icon: 'example' }
+      },
+      {
+        path: 'Part',
+        component: () => import(/* webpackChunkName: "PartManagement" */ '@/views/BasicManagement/Part/index.vue'),
+        name: 'PartManagement',
+        meta: { title: 'PartManagement', icon: 'guide' }
+      }
+    ]
+  },
+  {
+    path: '/ReportManagement',
+    component: Layout,
+    meta: { hidden: true },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/ReportManagement/index.vue'),
+        name: 'ReportManagement',
+        meta: { title: 'ReportManagement', icon: 'chart' }
+      }
+    ]
   },
   {
     path: '/profile',

@@ -7,13 +7,13 @@ import { getLanguage } from '@/utils/cookies'
 import elementEnLocale from 'element-ui/lib/locale/lang/en'
 import elementZhLocale from 'element-ui/lib/locale/lang/zh-CN'
 import elementEsLocale from 'element-ui/lib/locale/lang/es'
-import elementJaLocale from 'element-ui/lib/locale/lang/ja'
+import elementVnaLocale from 'element-ui/lib/locale/lang/vi'
 
 // User defined lang
 import enLocale from './en'
 import zhLocale from './zh'
 import esLocale from './es'
-import jaLocale from './ja'
+import vnLocale from './vn'
 
 Vue.use(VueI18n)
 
@@ -30,9 +30,9 @@ const messages = {
     ...esLocale,
     ...elementEsLocale
   },
-  ja: {
-    ...jaLocale,
-    ...elementJaLocale
+  vn: {
+    ...vnLocale,
+    ...elementVnaLocale
   }
 }
 
@@ -51,7 +51,7 @@ export const getLocale = () => {
   }
 
   // Default language is english
-  return 'en'
+  return 'zh'
 }
 
 const i18n = new VueI18n({
