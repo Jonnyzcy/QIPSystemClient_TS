@@ -1,0 +1,7 @@
+class Canvasmodel {
+  lineWidth: Number = 0;
+  strokeStyle: String = '';
+  drawImage(img: any, x: any, y: any) {
+
+  }
+}

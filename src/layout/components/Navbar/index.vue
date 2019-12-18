@@ -15,13 +15,13 @@
         <header-search class="right-menu-item" />
         <error-log class="errLog-container right-menu-item hover-effect" />
         <screenfull class="right-menu-item hover-effect" />
-        <el-tooltip
+        <!-- <el-tooltip
           :content="$t('navbar.size')"
           effect="dark"
           placement="bottom"
         >
           <size-select class="right-menu-item hover-effect" />
-        </el-tooltip>
+        </el-tooltip> -->
         <lang-select class="right-menu-item hover-effect" />
       </template>
       <el-dropdown
@@ -46,7 +46,7 @@
               {{ $t('navbar.dashboard') }}
             </el-dropdown-item>
           </router-link>
-          <a
+          <!-- <a
             target="_blank"
             href="https://github.com/armour/vue-typescript-admin-template/"
           >
@@ -59,7 +59,7 @@
             href="https://armour.github.io/vue-typescript-admin-docs/"
           >
             <el-dropdown-item>Docs</el-dropdown-item>
-          </a>
+          </a> -->
           <el-dropdown-item divided>
             <span
               style="display:block;"

@@ -40,6 +40,7 @@
     "sortablejs": "^1.10.1",
     "tinymce": "^5.1.0",
     "tui-editor": "^1.4.7",
+    "uuid": "^3.3.3",
     "vue": "^2.6.10",
     "vue-class-component": "^7.1.0",
     "vue-count-to": "^1.0.13",

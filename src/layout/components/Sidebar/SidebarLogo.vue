@@ -42,7 +42,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 export default class extends Vue {
   @Prop({ required: true }) private collapse!: boolean
 
-  private title = 'Vue Typescript Admin'
+  private title = 'JHV QIP SYSTEM'
 }
 </script>
 
