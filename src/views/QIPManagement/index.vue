@@ -4,187 +4,29 @@
       class="filter-container"
       @keyup.space.native="onkeyupspace"
     >
-      <el-card class="box-card">
-        <el-date-picker
-          v-model="Datetimes"
-          format="yyyy-MM-dd"
-          type="datetimerange"
-          style="width: 300px;"
-          :start-placeholder="$t('Qipmanage.BeginDate')"
-          :end-placeholder="$t('Qipmanage.EndDate')"
-        />
-        <el-input
-          v-model="listQuery.title"
-          placeholder="JHVNO"
-          style="width: 200px;margin-top:8px;"
-          class="filter-item"
-          :autofocus="true"
-          @keyup.enter.native="handleFilter"
-        />
-        <el-button
-          v-waves
-          class="filter-item"
-          type="primary"
-          style="margin-top:8px;"
-          icon="el-icon-search"
-          @click="handleFilter"
-        >
-          {{ $t('table.search') }}
-        </el-button>
-      </el-card>
-    </div>
-    <el-row :gutter="20">
-      <el-col :span="12">
-        <el-card class="box-card">
-          <div class="grid-content bg-purple">
+      <!-- heard begin -->
+      <el-row :gutter="20">
+        <!-- heard left begin -->
+        <el-col :span="12">
+          <el-card class="box-card">
             <el-table
               :key="tableKey"
-              ref="singleTable"
-              v-loading="listLoading"
-              :data="list"
+              ref="multipleSizeTable"
+              v-loading="SizelistLoading"
+              :data="Sizelist"
               border
               fit
-              style="width: 100%;"
+              max-height="600"
+              style="width: 100%"
               @sort-change="sortChange"
+              @row-click="handleSizerowclickChange"
             >
               <el-table-column
-                :label="$t('table.id')"
+                type="selection"
+                width="40"
+              />
+              <el-table-column
                 prop="id"
-                sortable="custom"
-                align="center"
-                width="80"
-                :class-name="getSortClass('id')"
-                @selection-change="handleSelectionChange"
-              >
-                <template slot-scope="scope">
-                  <span>{{ scope.row.id }}</span>
-                </template>
-              </el-table-column>
-              <el-table-column
-                prop="JHVNO"
-                label="JHVNO"
-              />
-              <el-table-column
-                prop="colorNum"
-                label="色号"
-              />
-              <el-table-column
-                prop="importance"
-                label="订单总量"
-              />
-              <el-table-column
-                :label="$t('table.date')"
-                width="150px"
-                align="center"
-              >
-                <template slot-scope="scope">
-                  <span>{{ scope.row.timestamp | parseTime('{y}-{m}-{d}') }}</span>
-                </template>
-              </el-table-column>
-            </el-table>
-          </div>
-        </el-card>
-        <el-card>
-          <el-row
-            :gutter="40"
-            class="panel-group"
-          >
-            <el-col
-              :xs="12"
-              :sm="12"
-              :lg="12"
-              class="card-panel-col"
-            >
-              <div
-                class="card-panel"
-                @click="handlefilled('error')"
-              >
-                <div class="card-panel-icon-wrapper close-filled">
-                  <svg-icon
-                    icon-class="close-filled"
-                    class-name="card-panel-icon"
-                  />
-                </div>
-                <div class="card-panel-description">
-                  <div class="card-panel-text-error">
-                    {{ $t('Qipmanage.error') }}
-                  </div>
-                </div>
-              </div>
-            </el-col>
-            <el-col
-              :xs="12"
-              :sm="12"
-              :lg="12"
-              class="card-panel-col"
-            >
-              <div
-                class="card-panel"
-                @click="handlefilled('success')"
-              >
-                <div class="card-panel-icon-wrapper icon-check">
-                  <svg-icon
-                    icon-class="check-filled"
-                    class-name="card-panel-icon"
-                  />
-                </div>
-                <div class="card-panel-description">
-                  <div class="card-panel-text-success">
-                    {{ $t('Qipmanage.success') }}
-                  </div>
-                </div>
-              </div>
-            </el-col>
-          </el-row>
-        </el-card>
-      </el-col>
-      <el-col :span="12">
-        <div class="grid-content bg-purple">
-          <el-card class="box-card">
-            <el-row class="row-bg">
-              <el-col :span="12">
-                <el-input
-                  v-model="listQuery.title"
-                  placeholder="JHVNO"
-                  style="width: 200px;margin-top:5px"
-                  class="filter-item"
-                  disabled
-                />
-                <el-input
-                  v-model="listQuery.title"
-                  :placeholder="$t('Qipmanage.ColorName')"
-                  style="width: 200px;margin-top:5px"
-                  class="filter-item"
-                  disabled
-                />
-                <el-input
-                  ref="inputBarcode"
-                  v-model="listQuery.title"
-                  :placeholder="$t('Qipmanage.BarCode')"
-                  style="width: 300px;margin-top:40px"
-                  class="filter-item"
-                />
-              </el-col>
-              <el-col :span="12">
-                <img
-                  src="http://localhost:8081/images/Dispatch/1aaa187a-3e5b-462e-915d-c31f526d148d.jpg"
-                  class="tableimage"
-                >
-              </el-col>
-            </el-row>
-          </el-card>
-          <el-card class="box-card">
-            <el-table
-              :key="tableKey"
-              v-loading="listLoading"
-              :data="list"
-              border
-              fit
-              style="width: 100%;"
-              @sort-change="sortChange"
-            >
-              <el-table-column
-                prop="Size"
                 label="SIZE"
               />
               <el-table-column
@@ -209,159 +51,162 @@
               </el-table-column>
             </el-table>
           </el-card>
-        </div>
-      </el-col>
+        </el-col>
+        <!-- heard left end -->
+        <!-- heard regiht begin -->
+        <el-col :span="12">
+          <el-card class="box-card">
+            <el-date-picker
+              v-model="Datetimes"
+              format="yyyy-MM-dd"
+              type="datetimerange"
+              style="width: 250px;"
+              :start-placeholder="$t('Qipmanage.BeginDate')"
+              :end-placeholder="$t('Qipmanage.EndDate')"
+            />
+            <el-input
+              v-model="listQuery.title"
+              placeholder="JHVNO"
+              style="width: 150px;margin-top:8px;margin-left:5px;"
+              class="filter-item"
+              :autofocus="true"
+              @keyup.enter.native="handleFilter"
+            />
+            <el-button
+              v-waves
+              class="filter-item"
+              type="primary"
+              style="margin-top:8px;margin-left:5px;"
+              icon="el-icon-search"
+              @click="handleFilter"
+            >
+              {{ $t('table.search') }}
+            </el-button>
+            <!-- <el-input
+              ref="inputBarcode"
+              v-model="listQuery.title"
+              :placeholder="$t('Qipmanage.BarCode')"
+              style="margin-top:5px"
+            />-->
+          </el-card>
+          <el-card class="box-card">
+            <div class="grid-content bg-purple">
+              <el-table
+                :key="tableKey"
+                ref="multipleTable"
+                v-loading="listLoading"
+                :data="list"
+                border
+                fit
+                style="width: 100%;"
+                max-height="360"
+                highlight-current-row
+                @sort-change="sortChange"
+                @row-click="handleSelectionChange"
+              >
+                <!-- @selection-change="handleSelectionChange" -->
+                <el-table-column
+                  type="selection"
+                  width="40"
+                  prop="id"
+                />
+                <el-table-column
+                  prop="JHVNO"
+                  label="JHVNO"
+                />
+                <el-table-column
+                  prop="colorNum"
+                  label="色号"
+                />
+                <el-table-column
+                  prop="importance"
+                  label="订单总量"
+                />
+                <el-table-column
+                  :label="$t('table.date')"
+                  width="150px"
+                  align="center"
+                >
+                  <template slot-scope="scope">
+                    <span>{{ scope.row.timestamp | parseTime('{y}-{m}-{d}') }}</span>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </div>
+          </el-card>
+          <el-card>
+            <el-row
+              :gutter="40"
+              class="panel-group"
+            >
+              <el-col
+                :xs="12"
+                :sm="12"
+                :lg="12"
+                class="card-panel-col"
+              >
+                <div
+                  class="card-panel-error"
+                  @click="handlefilled()"
+                >
+                  <div class="card-panel-icon-wrapper close-filled">
+                    <i class="el-icon-close" />
+                  </div>
+                  <div class="card-panel-description">
+                    <div class="card-panel-text-error">
+                      {{ $t('Qipmanage.error') }}
+                    </div>
+                  </div>
+                </div>
+              </el-col>
+              <el-col
+                :xs="12"
+                :sm="12"
+                :lg="12"
+                class="card-panel-col"
+              >
+                <div
+                  class="card-panel-success"
+                  @click="handlesuccess"
+                >
+                  <div class="card-panel-icon-wrapper icon-check">
+                    <i class="el-icon-check" />
+                  </div>
+                  <div class="card-panel-description">
+                    <div class="card-panel-text-success">
+                      {{ $t('Qipmanage.success') }}
+                    </div>
+                  </div>
+                </div>
+              </el-col>
+            </el-row>
+          </el-card>
+        </el-col>
+        <!-- heard regiht end -->
+      </el-row>
+      <!-- heard end -->
+    </div>
+    <!-- centent begin -->
+    <el-row :gutter="20">
+      <!-- left begin -->
+
+      <!-- left end -->
     </el-row>
-    <el-dialog
-      :center="true"
-      top="35vh"
-      :modal="true"
-      :show-close="false"
-      :visible.sync="dialogPvVisible"
-      :title="$t('Qipmanage.SizeTitle')"
-    >
-      <div>
-        <el-radio-group
-          v-model="radioUK"
-          text-color="#fffff"
-          :fill="radiofill"
-        >
-          <div style="margin:5px;">
-            <el-radio-button
-              label="UK1"
-              style="margin:15px;"
-              border
-            />
-            <el-radio-button
-              label="UK2"
-              style="margin:15px;"
-              border
-            />
-            <el-radio-button
-              label="UK3"
-              style="margin:15px;"
-              border
-            />
-            <el-radio-button
-              label="UK4"
-              style="margin:15px;"
-              border
-            />
-            <el-radio-button
-              label="UK5"
-              style="margin:15px;"
-              border
-            />
-          </div>
-          <div style="margin:5px;">
-            <el-radio-button
-              label="UK6"
-              style="margin:15px;"
-              border
-            />
-            <el-radio-button
-              label="UK7"
-              style="margin:15px;"
-              border
-            />
-            <el-radio-button
-              label="UK8"
-              style="margin:15px;"
-              border
-            />
-            <el-radio-button
-              label="UK9"
-              style="margin:15px;"
-              border
-            />
-            <el-radio-button
-              label="UK10"
-              style="margin:15px;"
-              border
-            />
-          </div>
-        </el-radio-group>
-      </div>
-      <div slot="footer">
-        <el-button @click="dialogPvVisible = false">
-          {{ $t('table.cancel') }}
-        </el-button>
-        <el-button
-          type="primary"
-          @click="dialogPvVisible = false"
-        >
-          {{ $t('table.confirm') }}
-        </el-button>
-      </div>
-    </el-dialog>
+    <!-- centent end -->
+    <!-- dialog error begin -->
     <el-dialog
       :modal="true"
-      :show-close="false"
+      :show-close="true"
       top="2vh"
       width="90%"
+      :fullscreen="true"
+      :close-on-press-escape="true"
       :visible.sync="dialogdetail"
     >
       <el-row :gutter="20">
         <el-col :span="12">
           <el-card class="box-card">
-            <div class="grid-content bg-purple">
-              <el-radio-group
-                v-model="radioUKerror"
-                text-color="#fffff"
-                fill="#f30606"
-              >
-                <el-radio-button
-                  label="UK1"
-                  style="margin:15px;"
-                  border
-                />
-                <el-radio-button
-                  label="UK2"
-                  style="margin:15px;"
-                  border
-                />
-                <el-radio-button
-                  label="UK3"
-                  style="margin:15px;"
-                  border
-                />
-                <el-radio-button
-                  label="UK4"
-                  style="margin:15px;"
-                  border
-                />
-                <el-radio-button
-                  label="UK5"
-                  style="margin:15px;"
-                  border
-                />
-                <el-radio-button
-                  label="UK6"
-                  style="margin:15px;"
-                  border
-                />
-                <el-radio-button
-                  label="UK7"
-                  style="margin:15px;"
-                  border
-                />
-                <el-radio-button
-                  label="UK8"
-                  style="margin:15px;"
-                  border
-                />
-                <el-radio-button
-                  label="UK9"
-                  style="margin:15px;"
-                  border
-                />
-                <el-radio-button
-                  label="UK10"
-                  style="margin:15px;"
-                  border
-                />
-              </el-radio-group>
-            </div>
+            <div class="grid-content bg-purple" />
           </el-card>
           <el-card>
             <div slot="header">
@@ -377,19 +222,6 @@
                 style="margin:15px;height:30px"
                 :label="error"
               />
-              <el-select
-                v-model="value"
-                filterable
-                clearable
-                placeholder="其他原因"
-              >
-                <el-option
-                  v-for="item in errorselsLists"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
-              </el-select>
             </el-radio-group>
           </el-card>
         </el-col>
@@ -480,26 +312,117 @@
         slot="title"
         align="center"
       >
-        <el-button
-          type="danger"
-          @click="dialogdetail = false"
-        >
-          {{ $t('table.cancel') }}
-        </el-button>
-        <el-button
-          type="primary"
-          @click="dialogdetail = false"
-        >
-          {{ $t('Qipmanage.Save') }}
-        </el-button>
-        <el-button
-          type="success"
-          @click="dialogdetail = false"
-        >
-          {{ $t('Qipmanage.SaveContinue') }}
-        </el-button>
+        <el-card>
+          <el-radio-group
+            v-model="radioUKerror"
+            text-color="#fffff"
+            fill="#f30606"
+          >
+            <el-radio-button
+              label="UK1"
+              style="margin:15px;"
+              border
+            />
+            <el-radio-button
+              label="UK2"
+              style="margin:15px;"
+              border
+            />
+            <el-radio-button
+              label="UK3"
+              style="margin:15px;"
+              border
+            />
+            <el-radio-button
+              label="UK4"
+              style="margin:15px;"
+              border
+            />
+            <el-radio-button
+              label="UK5"
+              style="margin:15px;"
+              border
+            />
+            <el-radio-button
+              label="UK6"
+              style="margin:15px;"
+              border
+            />
+            <el-radio-button
+              label="UK7"
+              style="margin:15px;"
+              border
+            />
+            <el-radio-button
+              label="UK8"
+              style="margin:15px;"
+              border
+            />
+            <el-radio-button
+              label="UK9"
+              style="margin:15px;"
+              border
+            />
+            <el-radio-button
+              label="UK10"
+              style="margin:15px;"
+              border
+            />
+            <el-radio-button
+              label="UK11"
+              style="margin:15px;"
+              border
+            />
+            <el-radio-button
+              label="UK12"
+              style="margin:15px;"
+              border
+            />
+            <el-radio-button
+              label="UK13"
+              style="margin:15px;"
+              border
+            />
+            <el-radio-button
+              label="UK14"
+              style="margin:15px;"
+              border
+            />
+            <el-radio-button
+              label="UK15"
+              style="margin:15px;"
+              border
+            />
+            <el-radio-button
+              label="UK16"
+              style="margin:15px;"
+              border
+            />
+            <el-radio-button
+              label="UK17"
+              style="margin:15px;"
+              border
+            />
+            <el-radio-button
+              label="UK18"
+              style="margin:15px;"
+              border
+            />
+            <el-radio-button
+              label="UK19"
+              style="margin:15px;"
+              border
+            />
+            <el-radio-button
+              label="UK20"
+              style="margin:15px;"
+              border
+            />
+          </el-radio-group>
+        </el-card>
       </div>
     </el-dialog>
+    <!-- dialog error begin -->
   </div>
 </template>
 
@@ -507,8 +430,8 @@
 </script>
 
 <style lang="scss" scoped>
-.el-table .warning-row {
-  background: #f8b808;
+.el-table__body tr.current-row > td {
+  background: #f87c08;
 }
 .tableimage {
   width: 200px;
@@ -532,15 +455,14 @@
   .card-panel-col {
     margin-bottom: 32px;
   }
-
-  .card-panel {
+  .card-panel-error {
     height: 108px;
     cursor: pointer;
     font-size: 12px;
     position: relative;
     overflow: hidden;
     color: #666;
-    background: #fff;
+    background: #f30606;
     box-shadow: 4px 4px 40px rgba(0, 0, 0, 0.05);
     border-color: rgba(0, 0, 0, 0.05);
     &:hover {
@@ -550,7 +472,64 @@
       .close-filled {
         background: #f30606;
       }
+      .icon-check {
+        background: #087904f8;
+      }
+    }
+    .icon-people {
+      color: #40c9c6;
+    }
 
+    .icon-message {
+      color: #36a3f7;
+    }
+
+    .icon-money {
+      color: #f4516c;
+    }
+
+    .icon-shopping {
+      color: #34bfa3;
+    }
+
+    .card-panel-icon-wrapper {
+      float: left;
+      margin: 14px 0 0 14px;
+      padding: 16px;
+      transition: all 0.38s ease-out;
+      border-radius: 6px;
+    }
+
+    .card-panel-icon {
+      float: left;
+      font-size: 48px;
+    }
+
+    .card-panel-description {
+      align-content: center;
+      font-weight: bolder;
+      margin: 45px;
+      .card-panel-text-error {
+        text-align: center;
+        color: hsla(0, 6%, 94%, 0.993);
+        font-size: 25px;
+      }
+    }
+  }
+  .card-panel-success {
+    height: 108px;
+    cursor: pointer;
+    font-size: 12px;
+    position: relative;
+    overflow: hidden;
+    color: #666;
+    background: #087904f8;
+    box-shadow: 4px 4px 40px rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.05);
+    &:hover {
+      .card-panel-icon-wrapper {
+        color: #fff;
+      }
       .icon-check {
         background: #087904f8;
       }
@@ -589,14 +568,10 @@
       align-content: center;
       font-weight: bolder;
       margin: 45px;
-      .card-panel-text-error {
-        color: #f50808e0;
-        font-size: 25px;
-      }
-
       .card-panel-text-success {
+        text-align: center;
         line-height: 18px;
-        color: rgb(19, 122, 15);
+        color: hsla(0, 6%, 94%, 0.993);
         font-size: 25px;
         margin-bottom: 12px;
       }

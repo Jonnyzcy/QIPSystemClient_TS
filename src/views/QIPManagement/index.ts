@@ -1,6 +1,7 @@
+/* eslint-disable */
 import CanvasFilaed from '@/components/CanvasFilaed/CanvasFilaed'
-import { Form as ElForm, Input } from "element-ui";
-import { Component, Vue } from 'vue-property-decorator'
+import { Form as ElForm, Input, Table } from "element-ui";
+import { Component, Vue, Watch } from 'vue-property-decorator'
 import { Form } from 'element-ui'
 import { cloneDeep } from 'lodash'
 import { getArticles, getPageviews, createArticle, updateArticle, defaultArticleData } from '@/api/articles'
@@ -40,9 +41,19 @@ export default class extends Vue {
   private tableKey = 0
   private dialogdetail = false;
   private list: IArticleData[] = []
+  private Sizelist: IArticleData[] = []
   private total = 0
+  private Sizetotal = 0
   private listLoading = true
   private listQuery = {
+    page: 1,
+    limit: 5,
+    importance: undefined,
+    title: undefined,
+    type: undefined,
+    sort: '+id'
+  }
+  private SizelistQuery = {
     page: 1,
     limit: 20,
     importance: undefined,
@@ -76,6 +87,15 @@ export default class extends Vue {
   private filledType: any;
   private radiofill: string = '';
   private dialogPvVisible: boolean = false;
+  private radioUK: string = '';
+  private radioUKerror: string = '';
+  private radioMessage: any = null;
+  private errorLists: Array<any> = [];
+  multipleSelection: any;
+  private checkList: number = 0;
+  checkSizeID: any;
+  SizelistLoading: boolean = false;
+
   /**Demo end */
 
   created() {
@@ -94,6 +114,16 @@ export default class extends Vue {
     }, 0.5 * 1000)
   }
 
+  private async initSizeData(id: any) {
+    let that = this;
+    that.SizelistLoading = true;
+    const { data } = await getArticles(this.SizelistQuery)
+    this.Sizelist = data.items
+    this.Sizetotal = data.total
+    setTimeout(() => {
+      this.SizelistLoading = false
+    }, 0.5 * 1000)
+  }
   //筛选
   private handleFilter() {
     let that = this;
@@ -162,6 +192,28 @@ export default class extends Vue {
       (this.$refs['dataForm'] as Form).clearValidate()
     })
   }
+  @Watch('child')
+  private handleSelectionChange(row: any) {
+    // // console.log(val);
+    let that = this;
+    // //console.log(val[0].id);
+    // console.log(that.checkList);
+    (that.$refs.multipleTable as Table).clearSelection();
+    (that.$refs.multipleTable as Table).toggleRowSelection(row)
+    that.checkList = row.id;
+    that.initSizeData(that.checkList)
+  }
+  //SIZE选中行
+  private handleSizerowclickChange(row: any) {
+    let that = this;
+    (that.$refs.multipleSizeTable as Table).clearSelection();
+    (that.$refs.multipleSizeTable as Table).toggleRowSelection(row)
+    that.checkSizeID = row.id;
+  }
+  private handleSizeSelectionChange(val: any) {
+    let that = this;
+    (that.$refs.multipleSizeTable as Table).clearSelection();
+  }
   private updateData() {
     (this.$refs['dataForm'] as Form).validate(async (valid) => {
       if (valid) {
@@ -190,21 +242,28 @@ export default class extends Vue {
     this.pageviewsData = data.pageviews
     this.dialogPageviewsVisible = true
   }
-  private handleDownload() {
-    this.downloadLoading = true
-    const tHeader = ['timestamp', 'title', 'type', 'importance', 'status']
-    const filterVal = ['timestamp', 'title', 'type', 'importance', 'status']
-    const data = formatJson(filterVal, this.list)
-    exportJson2Excel(tHeader, data, 'table-list')
-    this.downloadLoading = false
-  }
-  private handlefilled(type: any) {
-    this.filledType = type
-    if (type === 'error') {
-      this.dialogdetail = true
+
+  private handlefilled() {
+    let that = this;
+    let size = that.checkSizeID;
+    let message = "你操作的SIZE:" + size + ",操作成功！"
+    if (size > 0) {
+      that.dialogdetail = true;
     } else {
-      this.radiofill = '#087904f8'
-      this.dialogPvVisible = true
+      this.$message.error('请选择SIZE');
+    }
+  }
+  private handlesuccess() {
+    let that = this;
+    let size = that.checkSizeID;
+    let message = "你操作的SIZE:" + size + ",操作成功！"
+    if (size > 0) {
+      this.$message({
+        message: message,
+        type: 'success'
+      });
+    } else {
+      this.$message.error('请选择SIZE');
     }
   }
 }

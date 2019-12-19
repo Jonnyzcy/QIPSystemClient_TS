@@ -166,6 +166,19 @@ export const asyncRoutes: RouteConfig[] = [
     path: '*',
     redirect: '/404',
     meta: { hidden: true }
+  },
+  {
+    path: '/icon',
+    component: Layout,
+    meta: { hidden: false },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/icons/index.vue'),
+        name: 'Icons',
+        meta: { title: 'icons', icon: 'icon', noCache: true }
+      }
+    ]
   }
 ]
 
