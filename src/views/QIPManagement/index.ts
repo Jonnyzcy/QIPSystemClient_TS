@@ -93,7 +93,7 @@ export default class extends Vue {
   private errorLists: Array<any> = [];
   multipleSelection: any;
   private checkList: number = 0;
-  checkSizeID: any;
+  checkSizeID: number = -1;
   SizelistLoading: boolean = false;
 
   /**Demo end */
@@ -201,6 +201,7 @@ export default class extends Vue {
     (that.$refs.multipleTable as Table).clearSelection();
     (that.$refs.multipleTable as Table).toggleRowSelection(row)
     that.checkList = row.id;
+    that.checkSizeID = -1;
     that.initSizeData(that.checkList)
   }
   //SIZE选中行
@@ -242,10 +243,13 @@ export default class extends Vue {
     this.pageviewsData = data.pageviews
     this.dialogPageviewsVisible = true
   }
-
+  private radioChange(val: any) {
+    this.checkSizeID = val;
+  }
   private handlefilled() {
     let that = this;
     let size = that.checkSizeID;
+    console.log(size);
     let message = "你操作的SIZE:" + size + ",操作成功！"
     if (size > 0) {
       that.dialogdetail = true;

@@ -18,10 +18,12 @@
               fit
               max-height="600"
               style="width: 100%"
+              :highlight-current-row="true"
               @sort-change="sortChange"
               @row-click="handleSizerowclickChange"
             >
               <el-table-column
+                v-model="checkSizeID"
                 type="selection"
                 width="40"
               />
@@ -205,29 +207,54 @@
     >
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-card class="box-card">
-            <div class="grid-content bg-purple" />
-          </el-card>
           <el-card>
             <div slot="header">
-              <span>{{ $t('Qipmanage.selecterror') }}</span>
+              <el-tabs
+                tab-position="bottom"
+              >
+                <el-tab-pane label="I<">
+                  <el-radio-group
+                    v-model="checkSizeID"
+                    fill="red"
+                    @change="radioChange"
+                  >
+                    <el-radio-button
+                      v-for="item in Sizelist"
+                      :key="item.id"
+                      :label="item.id"
+                      size="medium"
+                      style="margin:5px"
+                      border
+                    >
+                      {{ item.id }}
+                    </el-radio-button>
+                  </el-radio-group>
+                </el-tab-pane>
+                <el-tab-pane label=">I">
+                  <el-radio-group
+                    v-model="checkSizeID"
+                    fill="red"
+                    @change="radioChange"
+                  >
+                    <el-radio-button
+                      v-for="item in Sizelist"
+                      :key="item.id"
+                      :label="item.id"
+                      size="medium"
+                      style="margin:5px"
+                      border
+                    >
+                      {{ item.id }}
+                    </el-radio-button>
+                  </el-radio-group>
+                </el-tab-pane>
+              </el-tabs>
             </div>
-            <el-radio-group
-              v-model="radioMessage"
-              text-color="#fffff"
-            >
-              <el-radio-button
-                v-for="error in errorLists"
-                :key="error"
-                style="margin:15px;height:30px"
-                :label="error"
-              />
-            </el-radio-group>
           </el-card>
         </el-col>
         <el-col :span="12">
           <div class="grid-content bg-purple">
-            <el-card class="box-card">
+            <!-- <el-card class="box-card">
               <el-row class="row-bg">
                 <el-col :span="12">
                   <el-input
@@ -259,7 +286,7 @@
                   >
                 </el-col>
               </el-row>
-            </el-card>
+            </el-card> -->
             <el-card class="box-card">
               <el-tabs type="border-card">
                 <el-tab-pane :label="$t('Qipmanage.Image')">
@@ -310,119 +337,28 @@
       </el-row>
       <div
         slot="title"
-        align="center"
+        align="left"
       >
         <el-card>
           <el-radio-group
-            v-model="radioUKerror"
-            text-color="#fffff"
-            fill="#f30606"
+            v-model="checkSizeID"
+            fill="red"
+            @change="radioChange"
           >
             <el-radio-button
-              label="UK1"
-              style="margin:15px;"
+              v-for="item in Sizelist"
+              :key="item.id"
+              :label="item.id"
+              size="medium"
+              style="margin:5px"
               border
-            />
-            <el-radio-button
-              label="UK2"
-              style="margin:15px;"
-              border
-            />
-            <el-radio-button
-              label="UK3"
-              style="margin:15px;"
-              border
-            />
-            <el-radio-button
-              label="UK4"
-              style="margin:15px;"
-              border
-            />
-            <el-radio-button
-              label="UK5"
-              style="margin:15px;"
-              border
-            />
-            <el-radio-button
-              label="UK6"
-              style="margin:15px;"
-              border
-            />
-            <el-radio-button
-              label="UK7"
-              style="margin:15px;"
-              border
-            />
-            <el-radio-button
-              label="UK8"
-              style="margin:15px;"
-              border
-            />
-            <el-radio-button
-              label="UK9"
-              style="margin:15px;"
-              border
-            />
-            <el-radio-button
-              label="UK10"
-              style="margin:15px;"
-              border
-            />
-            <el-radio-button
-              label="UK11"
-              style="margin:15px;"
-              border
-            />
-            <el-radio-button
-              label="UK12"
-              style="margin:15px;"
-              border
-            />
-            <el-radio-button
-              label="UK13"
-              style="margin:15px;"
-              border
-            />
-            <el-radio-button
-              label="UK14"
-              style="margin:15px;"
-              border
-            />
-            <el-radio-button
-              label="UK15"
-              style="margin:15px;"
-              border
-            />
-            <el-radio-button
-              label="UK16"
-              style="margin:15px;"
-              border
-            />
-            <el-radio-button
-              label="UK17"
-              style="margin:15px;"
-              border
-            />
-            <el-radio-button
-              label="UK18"
-              style="margin:15px;"
-              border
-            />
-            <el-radio-button
-              label="UK19"
-              style="margin:15px;"
-              border
-            />
-            <el-radio-button
-              label="UK20"
-              style="margin:15px;"
-              border
-            />
+            >
+              {{ item.id }}
+            </el-radio-button>
           </el-radio-group>
         </el-card>
       </div>
     </el-dialog>
-    <!-- dialog error begin -->
   </div>
 </template>
 
@@ -430,9 +366,8 @@
 </script>
 
 <style lang="scss" scoped>
-.el-table__body tr.current-row > td {
-  background: #f87c08;
-}
+.el-table__body tr.el-table__row--striped.current-row td
+{background-color:#F50B0B}
 .tableimage {
   width: 200px;
   height: 100px;
