@@ -85,6 +85,7 @@ class User extends VuexModule implements IUserState {
       throw Error('GetUserInfo: roles must be a non-null array!')
     }
     this.SET_ROLES(roles)
+    console.log('===============>',roles);
     this.SET_NAME(name)
     this.SET_AVATAR(avatar)
     this.SET_INTRODUCTION(introduction)

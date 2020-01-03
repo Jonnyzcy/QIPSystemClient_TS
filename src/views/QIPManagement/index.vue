@@ -136,7 +136,7 @@
               </el-table>
             </div>
           </el-card>
-          <el-card>
+          <el-card class="box-card">
             <el-row
               :gutter="40"
               class="panel-group"
@@ -207,12 +207,12 @@
     >
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-card>
+          <el-card class="box-card">
             <div slot="header">
               <el-tabs
                 tab-position="bottom"
               >
-                <el-tab-pane label="I<">
+                <el-tab-pane label="第一页">
                   <el-radio-group
                     v-model="checkSizeID"
                     fill="red"
@@ -230,7 +230,7 @@
                     </el-radio-button>
                   </el-radio-group>
                 </el-tab-pane>
-                <el-tab-pane label=">I">
+                <el-tab-pane label="第二页">
                   <el-radio-group
                     v-model="checkSizeID"
                     fill="red"
@@ -291,9 +291,12 @@
               <el-tabs type="border-card">
                 <el-tab-pane :label="$t('Qipmanage.Image')">
                   <CanvasFilaed
-                    width="400"
-                    height="700"
+                    width="550"
+                    height="642"
                     url="http://localhost:8081/images/Imagetemplater/3.png"
+                    v-bind="partList"
+                    :init-list="inittempList"
+                    :istemplater="false"
                   />
                 </el-tab-pane>
                 <el-tab-pane :label="$t('Qipmanage.Report')">
@@ -339,7 +342,7 @@
         slot="title"
         align="left"
       >
-        <el-card>
+        <el-card class="box-card">
           <el-radio-group
             v-model="checkSizeID"
             fill="red"
@@ -373,6 +376,9 @@
   height: 100px;
   vertical-align: middle;
   margin-right: 12px;
+}
+.box-card{
+  padding:10px;
 }
 .DivImageback {
   width: 400px;

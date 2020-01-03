@@ -9,46 +9,46 @@ export const getUsers = (params: any) =>
 
 export const getUserInfo = (data: any) =>
   request({
-    url: '/users/info',
+    url: '/Users/Userinfo',
     method: 'post',
     data
   })
 
 export const getUserByName = (username: string) =>
   request({
-    url: `/users/${username}`,
+    url: `/Users/${username}`,
     method: 'get'
   })
 
 export const updateUser = (username: string, data: any) =>
   request({
-    url: `/users/${username}`,
+    url: `/Users/${username}`,
     method: 'put',
     data
   })
 
 export const deleteUser = (username: string) =>
   request({
-    url: `/users/${username}`,
+    url: `/Users/${username}`,
     method: 'delete'
   })
 
 export const login = (data: any) =>
   request({
-    url: '/users/login',
+    url: '/Users/Login',
     method: 'post',
     data
   })
 
 export const logout = () =>
   request({
-    url: '/users/logout',
+    url: '/Users/logout',
     method: 'post'
   })
 
 export const register = (data: any) =>
   request({
-    url: '/users/register',
+    url: '/Users/register',
     method: 'post',
     data
   })

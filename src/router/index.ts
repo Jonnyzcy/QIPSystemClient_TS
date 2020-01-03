@@ -110,12 +110,12 @@ export const constantRoutes: RouteConfig[] = [
       hidden: false
     },
     children: [
-      {
-        path: 'index',
-        component: () => import(/* webpackChunkName: "BasicManagement" */'@/views/BasicManagement/index.vue'),
-        name: 'BasicManagement',
-        meta: { title: 'BasicManagement', icon: 'example' }
-      },
+      // {
+      //   path: 'index',
+      //   component: () => import(/* webpackChunkName: "BasicManagement" */'@/views/BasicManagement/index.vue'),
+      //   name: 'BasicManagement',
+      //   meta: { title: 'BasicManagement', icon: 'example' }
+      // },
       {
         path: 'Part',
         component: () => import(/* webpackChunkName: "PartManagement" */ '@/views/BasicManagement/Part/index.vue'),

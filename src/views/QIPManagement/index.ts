@@ -1,12 +1,10 @@
 /* eslint-disable */
-import CanvasFilaed from '@/components/CanvasFilaed/CanvasFilaed'
+import CanvasFilaed from '@/components/CanvasFilaed/index.vue'
 import { Form as ElForm, Input, Table } from "element-ui";
 import { Component, Vue, Watch } from 'vue-property-decorator'
 import { Form } from 'element-ui'
 import { cloneDeep } from 'lodash'
 import { getArticles, getPageviews, createArticle, updateArticle, defaultArticleData } from '@/api/articles'
-import { IArticleData } from '@/api/types'
-import { exportJson2Excel } from '@/utils/excel'
 import { formatJson } from '@/utils'
 import Pagination from '@/components/Pagination/index.vue'
 
@@ -40,8 +38,8 @@ export default class extends Vue {
   private Datetimes: any = '';
   private tableKey = 0
   private dialogdetail = false;
-  private list: IArticleData[] = []
-  private Sizelist: IArticleData[] = []
+  private list: any= []
+  private Sizelist: any = []
   private total = 0
   private Sizetotal = 0
   private listLoading = true
@@ -95,6 +93,8 @@ export default class extends Vue {
   private checkList: number = 0;
   checkSizeID: number = -1;
   SizelistLoading: boolean = false;
+  inittempList= [[489, 122], [322, 150]];
+  partList=[];
 
   /**Demo end */
 

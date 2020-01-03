@@ -1,0 +1,120 @@
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import { Image } from 'element-ui'
+const uuid = require('uuid')
+
+@Component({
+  name: 'CanvasFilaed'
+})
+export default class extends Vue {
+  @Prop({ default: true }) private canDraw!: boolean
+  @Prop({ default: '' }) private url!: string
+  @Prop({ default: () => [] }) private initList: any = []
+  @Prop({ default: [] }) private info: any = []
+  @Prop({ default: false }) private istemplater!: boolean
+  @Prop({ default: '' }) private width!: String
+  @Prop({ default: '' }) private height!: String
+  @Prop({ default: 'red' }) private lineColor!: String
+  @Prop({ default: 1 }) private lineWidth!: Number
+
+  private radom = uuid.v4()
+  private canvasMoveUse = false
+  mycan: any
+  img!: Image
+  canvasX: any
+  temppartlist: any = []
+  PartList: any = []
+  canvasY: any
+  @Watch('child')
+  private makearcfill(x: any, y: any, r: any, s: any, e: any, color: any) {
+    let mycan = document.getElementById(this.radom)
+    let ctx = this.mycan.getContext('2d')
+    ctx.beginPath()
+    ctx.fillStyle = color
+    ctx.arc(x, y, r, s, e)
+    ctx.fill()
+  }
+  @Watch('child')
+  private makearcstroke(x: any, y: any, r: any, s: any, e: any, color: any) {
+    let mycan = document.getElementById(this.radom)
+    let ctx = this.mycan.getContext('2d')
+    ctx.beginPath()
+    ctx.fillStyle = color
+    ctx.arc(x, y, r, s, e)
+    ctx.fill()
+  }
+  @Watch('child')
+  private initDraw() {
+    let that = this
+    const mycan = document.getElementById(this.radom)
+    let context = this.mycan.getContext('2d')
+    that.img.src = that.url
+    context.drawImage(this.img, 0, 0)
+    context.lineWidth = this.lineWidth
+    context.strokeStyle = this.lineColor
+
+    if (this.initList.length > 0 && this.initList != null) {
+      that.initList.forEach((e: any[]) => {
+        this.makearcstroke(e[0], e[1], 30, 0, 180, 'red')
+      })
+    } else {
+      this.makearcstroke(47, 50, 30, 0, 180, 'red')
+    }
+  }
+  private canvasDown(e: any) {
+    let that = this
+    if (that.canDraw) {
+      that.canvasMoveUse = true
+      let canvasX = e.layerX
+      let canvasY = e.layerY
+      let canvas = document.getElementById(that.radom)
+      let templist = that.initList
+      if (that.istemplater === true) {
+        let tempxy = [that.canvasX, that.canvasY]
+        that.temppartlist.push(tempxy)
+        that.makearcstroke(that.canvasX, that.canvasY, 30, 0, 180, 'red')
+      } else {
+        templist.array.forEach((e: any[]) => {
+          if (
+            e[0] + 30 >= canvasX &&
+            e[0] - 30 <= canvasX &&
+            e[1] + 30 >= canvasY &&
+            e[1] - 30 <= canvasY
+          ) {
+            that.canvasX = e[0]
+            that.canvasY = e[1]
+            if (that.PartList.length > 0 && this.PartList != null) {
+              that.PartList.forEach((c: any[]) => {
+                if (c[0] === e[0] && c[1] === e[1]) {
+                  this.makearcstroke(
+                    this.canvasX,
+                    this.canvasY,
+                    30,
+                    0,
+                    180,
+                    'red'
+                  )
+                } else {
+                  let xy = [this.canvasX, this.canvasY]
+                  this.temppartlist.push(xy)
+                  this.makearcfill(
+                    this.canvasX,
+                    this.canvasY,
+                    30,
+                    0,
+                    180,
+                    'red'
+                  )
+                }
+              })
+            } else {
+              let tempxy = [this.canvasX, this.canvasY]
+              this.temppartlist.push(tempxy)
+              this.makearcfill(this.canvasX, this.canvasY, 30, 0, 180, 'red')
+            }
+          }
+        })
+        this.PartList = this.temppartlist
+      }
+    }
+  }
+}
